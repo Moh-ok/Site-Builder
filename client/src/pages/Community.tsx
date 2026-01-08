@@ -70,7 +70,7 @@
                              <span className='text-xs text-gray-500'>{new Date(project.createdAt).toLocaleDateString()}</span>
  
                            <div className='flex gap-3 text-white text-sm'>
-                             <button onClick={()=>navigate(`/preview/${project.id}`)} className='px-3 py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-colour flex items-center gap-2'><span className="bg-gray-200 size-4.5 rounded-full text-black font-semibold flex items-center justify-center">{project.user?.name?.slice(0,1)}</span>
+                             <button className='px-3 py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-colour flex items-center gap-2'><span className="bg-gray-200 size-4.5 rounded-full text-black font-semibold flex items-center justify-center">{project.user?.name?.slice(0,1)}</span>
                              {project.user?.name}
                              </button>
 
