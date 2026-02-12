@@ -71,7 +71,13 @@ const Projects = () => {
   }
 
   const togglePublish = async () => {
-
+    try {
+      const { data } = await api.get(`/api/user/publish-toggle/$(projectId}`);
+      toast.success(data.message)
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || error.message);
+      console.log(error);
+    }
   }
 
   useEffect(()=>{
