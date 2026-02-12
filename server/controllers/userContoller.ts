@@ -22,8 +22,9 @@ export const getUserCredits = async (req: Request, res: Response) => {
 
 // controller Function to create New Project
 export const createUserProject = async (req: Request, res: Response) => {
-    const userId = req.userId;
+    
     try {
+        const userId = req.userId;
         const { initial_prompt } = req.body;
 
         if(!userId){
@@ -44,7 +45,8 @@ export const createUserProject = async (req: Request, res: Response) => {
                 initial_prompt,
                 userId
         }
-    })
+    });
+    
 
     // Update User's Total Creation
     await prisma.user.update({
