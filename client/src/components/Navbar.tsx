@@ -1,15 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { assets } from '../assets/assets';
 import { Link, useNavigate } from 'react-router-dom';
 import { authClient } from '@/lib/auth-client';
 import { UserButton } from '@daveyplate/better-auth-ui';
+import api from '@/configs/axios';
+import { toast } from 'sonner';
 
 const Navbar = () => {
     
   const [menuOpen, setMenuOpen] = React.useState(false);
   const navigate = useNavigate();
+  const [credits, setCredits] = useState(0)
 
   const {data: session} = authClient.useSession()
+
+  const getCredits = async ()=> {
+    try {
+      const {data} = await api.get('/api/user/credits');
+      setCredits(data.credits)
+      
+    } catch (error: unknown) {
+       if ( typeof error === "object" && error !== null && "response" in error) {
+          const err = error as { response?: { data?: { message?: string } } }
+          toast.error(err.response?.data?.message || "Request failed")
+      } else if (error instanceof Error) {
+        toast.error(error.message)
+      } else {
+        toast.error("Something went wrong")
+      }
+      console.log(error)
+    }
+}
+
+  useEffect(()=>{
+    if(session?.user){
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      getCredits()
+    }
+  }, [session?.user])
 
   return (
     <>
@@ -31,7 +59,12 @@ const Navbar = () => {
               Get started
             </button>
             ) : (
+              <>
+              <button className='bg-white/10 px-5 py-1.5 text-xs sm:text-sm border text-gray-200 rounded-full'>
+              Credits: <span className='text-indigo-300'>{credits}</span>
+              </button>
               <UserButton size='icon'/>
+              </>
             )
 }
             <button id="open-menu" className="md:hidden active:scale-90 transition" onClick={() => setMenuOpen(true)} >
